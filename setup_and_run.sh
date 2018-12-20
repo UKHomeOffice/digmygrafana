@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ### This is where grafana provisions dashboards in the container
 mkdir /var/lib/grafana/dashboards
@@ -16,6 +16,15 @@ rm dashboards
 
 cd /usr/share/grafana
 
+OAUTH_AUTO_LOGIN="${OAUTH_AUTO_LOGIN:-true}"
+SYSDIG_URL="${SYSDIG_URL:-https://app.sysdigcloud.com}"
+ADMIN_USER="${ADMIN_USER:-admin}"
+ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin}"
+
+if [ "${ADMIN_PASSWORD}" == "admin" ]; then
+  echo "Warning!!! You are running a continer with the admin password as admin! Don't do this in production!!!!!"
+fi
+
 ### Set up grafana.ini ###
 cat << EOL > "/etc/grafana/grafana.ini"
 [auth]
@@ -24,7 +33,15 @@ signout_redirect_url = ${SIGNOUT_REDIRECT_URL}
 
 # Set to true to attempt login with OAuth automatically, skipping the login screen.
 # This setting is ignored if multiple OAuth providers are configured.
-oauth_auto_login = true
+oauth_auto_login = ${OAUTH_AUTO_LOGIN}
+
+#################################### Security ############################
+[security]
+# default admin user, created on startup
+admin_user = ${ADMIN_USER}
+
+# default admin password, can be changed before first start of grafana, or in profile settings
+admin_password = ${ADMIN_PASSWORD}
 
 #################################### Generic OAuth ##########################
 [auth.generic_oauth]

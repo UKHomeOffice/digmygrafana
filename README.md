@@ -15,6 +15,9 @@ OAUTH_TOKEN_URL      | The oauth token url
 OAUTH_API_URL        | The oauth api url
 SIGNOUT_REDIRECT_URL | The oauth signout url
 JSON_DASHBOARDS      | An array of JSON dashboards
+ADMIN_USER           | Defaults to admin
+ADMIN_PASSWORD       | Defaults to admin
+OAUTH_AUTO_LOGIN     | Defaults to true
 ```
 
 The `JSON_DASHBOARDS` environment variable looks something like this:
@@ -22,3 +25,6 @@ The `JSON_DASHBOARDS` environment variable looks something like this:
 ```
 [{grafana_dashboard_json},{another_grafana_dashboard_json},{yet_another_grafana_dashboard_json}]
 ```
+
+## To Build
+Run ./build.sh to download and build the docker container
