@@ -6,7 +6,7 @@ cd /var/lib/grafana/dashboards
 
 ####### BUILD THE DASHBOARDS #######
 echo $JSON_DASHBOARDS | jq .[] -c > dashboards
-cat dashboards | while read line
+cat dashboards | while read -r line
 do
   count=$((count + 1))
   echo $line > "dashboard_$count.json"
