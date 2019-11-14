@@ -1,6 +1,8 @@
-FROM grafana/grafana:5.4.2
+FROM grafana/grafana:6.4.4
 USER root
-RUN apt-get update -qq && apt-get upgrade -y -qq && apt-get install -qq -y jq
+RUN apk update \
+ && apk add jq \
+ && rm -rf /var/cache/apk/*
 RUN chown -R grafana:grafana /etc/grafana
 USER grafana
 ADD sysdig /var/lib/grafana/plugins/sysdig
