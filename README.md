@@ -1,6 +1,8 @@
 # Digmygrafana
 A heavily opinionated grafana + sysdig container for auto provisioning dashboards!
 
+Also supports auto provisioning postgres datasources.
+
 ## Configuration
 The following environment variables are used to configure digmygrafana
 
@@ -18,6 +20,10 @@ JSON_DASHBOARDS      | An array of JSON dashboards
 ADMIN_USER           | Defaults to admin
 ADMIN_PASSWORD       | Defaults to admin
 OAUTH_AUTO_LOGIN     | Defaults to true
+POSTGRES_HOST        | The name of the postgres host
+POSTGRES_USER        | The postgres user
+POSTGRES_PASS        | The postgres password
+POSTGRES_DB_NAME     | The postgres database name
 ```
 
 The `JSON_DASHBOARDS` environment variable looks something like this:

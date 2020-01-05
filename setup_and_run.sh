@@ -84,6 +84,28 @@ datasources:
 
 EOL
 
+if [[ -n "${POSTGRES_HOST}" ]]; then
+cat << EOL >> "/etc/grafana/provisioning/datasources/postgres.yml"
+apiVersion: 1
+datasources:
+- name: Postgres
+  type: postgres
+  access: proxy
+  url: ${POSTGRES_HOST}:5432
+  secureJsonData:
+    password: ${POSTGRES_PASS}
+  user: ${POSTGRES_USER}
+  database: ${POSTGRES_DB_NAME}
+  basicAuth: false
+  isDefault: false
+  jsonData:
+    sslmode: disable
+  version: 1
+  editable: false
+
+EOL
+fi
+
 
 # Run grafana
 sh /run.sh
