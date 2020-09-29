@@ -1,4 +1,4 @@
-FROM grafana/grafana:6.4.4
+FROM grafana/grafana:6.6.2
 USER root
 RUN apk update \
  && apk add jq \
