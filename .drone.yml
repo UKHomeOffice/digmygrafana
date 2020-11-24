@@ -1,0 +1,51 @@
+---
+kind: pipeline
+name: default
+type: kubernetes
+
+steps:
+
+- name: build-image
+  image: docker:dind
+  commands:
+    # wait for docker service to be up before running docker build
+    - n=0; while [ "$n" -lt 60 ] && [ ! -e /var/run/docker.sock ]; do n=$(( n + 1 )); sleep 1; done
+    - docker build -t digmygrafana -f Dockerfile .
+  volumes:
+    - name: dockersock
+      path: /var/run
+  when:
+    branch: main
+    event: push
+
+- name: create-artefact
+  image: docker:dind
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+  commands:
+    - docker login -u="ukhomeofficedigital+sas_fbis_robot" -p=$${DOCKER_PASSWORD} quay.io
+    - docker tag digmygrafana quay.io/ukhomeofficedigital/digmygrafana:${DRONE_COMMIT_SHA}
+    - docker tag digmygrafana quay.io/ukhomeofficedigital/digmygrafana:latest
+    - docker push quay.io/ukhomeofficedigital/digmygrafana:${DRONE_COMMIT_SHA}
+    - docker push quay.io/ukhomeofficedigital/digmygrafana:latest
+  volumes:
+    - name: dockersock
+      path: /var/run
+  when:
+    branch: main
+    event: push
+
+services:
+  - name: docker
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
+
+...
+
