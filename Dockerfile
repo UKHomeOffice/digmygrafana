@@ -6,8 +6,8 @@ RUN apk update \
  && apk add jq curl tar \
  && rm -rf /var/cache/apk/*
 
-# curl https://download.sysdig.com/stable/grafana-sysdig-datasource/grafana-sysdig-datasource-v0.7.tgz -o sysdig.tgz
-# tar zxf sysdig.tgz -C .
+RUN curl https://download.sysdig.com/stable/grafana-sysdig-datasource/grafana-sysdig-datasource-v0.7.tgz -o sysdig.tgz
+RUN tar zxf sysdig.tgz -C .
 
 RUN chown -R grafana:grafana /etc/grafana
 
