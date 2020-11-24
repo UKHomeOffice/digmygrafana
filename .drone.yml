@@ -15,7 +15,7 @@ steps:
     - name: dockersock
       path: /var/run
   when:
-    branch: main
+    branch: master
     event: push
 
 - name: create-artefact
@@ -33,7 +33,7 @@ steps:
     - name: dockersock
       path: /var/run
   when:
-    branch: main
+    branch: master
     event: push
 
 services:
