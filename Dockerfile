@@ -7,13 +7,12 @@ RUN apk update \
  && rm -rf /var/cache/apk/*
 
 RUN curl https://download.sysdig.com/stable/grafana-sysdig-datasource/grafana-sysdig-datasource-v0.7.tgz -o sysdig.tgz
-RUN tar zxf sysdig.tgz -C .
+RUN tar zxf sysdig.tgz -C . && mv sysdig /var/lib/grafana/plugins/sysdig && rm sysdig.tgz
 
 RUN chown -R grafana:grafana /etc/grafana
 
 USER grafana
 
-ADD sysdig /var/lib/grafana/plugins/sysdig
 ADD provisioning /etc/grafana/provisioning
 ADD setup_and_run.sh /setup_and_run.sh
 
